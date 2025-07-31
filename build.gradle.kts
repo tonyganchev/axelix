@@ -2,15 +2,25 @@ plugins {
     id("java")
 }
 
-group = "org.example"
-version = "1.0-SNAPSHOT"
+group = "com.nucleonforge.axile"
+version = "1.0.O-SNAPSHOT"
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testImplementation(platform("org.junit:junit-bom:5.10.0"))
+    implementation(platform("org.springframework.boot:spring-boot-dependencies:3.0.13"))
+    implementation(platform("org.springframework.cloud:spring-cloud-dependencies:2022.0.4"))
+
+    implementation("org.springframework.boot:spring-boot-starter-web")
+
+//    // lombok
+//    compileOnly("org.projectlombok:lombok")
+//    testCompileOnly("org.projectlombok:lombok")
+//    annotationProcessor("org.projectlombok:lombok")
+//    testAnnotationProcessor("org.projectlombok:lombok")
+
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
 

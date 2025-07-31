@@ -1,4 +1,4 @@
-package com.nucleonforge.axile.master.api.response;
+package com.nucleonforge.axile.master.api.app.response;
 
 import com.nucleonforge.axile.master.domain.Instance;
 
