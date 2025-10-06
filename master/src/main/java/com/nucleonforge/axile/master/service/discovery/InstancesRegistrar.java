@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -15,6 +16,7 @@ import com.nucleonforge.axile.common.domain.Instance;
 import com.nucleonforge.axile.master.service.state.InstanceRegistry;
 
 @Component
+@ConditionalOnBean(InstancesDiscoverer.class)
 @ConditionalOnProperty(prefix = "axile.master.discovery", name = "auto", havingValue = "true")
 public class InstancesRegistrar {
 

@@ -32,7 +32,7 @@ public abstract class AbstractInstancesDiscoverer implements InstancesDiscoverer
     private static final String ACTUATOR_ENDPOINT_POSTFIX = "/actuator";
 
     private final Logger logger;
-    private final DiscoveryClient discoveryClient;
+    protected final DiscoveryClient discoveryClient;
     private final ManagedServiceMetadataEndpointProber managedServiceProber;
 
     public AbstractInstancesDiscoverer(

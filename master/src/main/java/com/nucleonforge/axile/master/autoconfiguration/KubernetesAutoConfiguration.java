@@ -11,11 +11,16 @@ import io.fabric8.kubernetes.client.KubernetesClientBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnCloudPlatform;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.cloud.CloudPlatform;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.kubernetes.commons.discovery.KubernetesDiscoveryProperties;
+import org.springframework.cloud.kubernetes.fabric8.discovery.KubernetesDiscoveryClient;
 import org.springframework.cloud.kubernetes.fabric8.discovery.KubernetesDiscoveryClientAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+
+import com.nucleonforge.axile.master.service.discovery.KubernetesInstanceDiscoverer;
+import com.nucleonforge.axile.master.service.transport.ManagedServiceMetadataEndpointProber;
 
 /**
  * Auto-configuration for K8S related components.
@@ -46,5 +51,13 @@ public class KubernetesAutoConfiguration {
                         .withOauthToken(Files.readString(Paths.get(tokenPath)))
                         .build())
                 .build();
+    }
+
+    @Bean
+    @ConditionalOnProperty(prefix = "axile.master.discovery", name = "execution-environment", havingValue = "k8s")
+    public KubernetesInstanceDiscoverer kubernetesInstanceDiscoverer(
+            KubernetesDiscoveryClient kubernetesDiscoveryClient,
+            ManagedServiceMetadataEndpointProber metadataEndpointProber) {
+        return new KubernetesInstanceDiscoverer(kubernetesDiscoveryClient, metadataEndpointProber);
     }
 }
