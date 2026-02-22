@@ -17,12 +17,8 @@
  */
 import { Tooltip } from "antd";
 import { useTranslation } from "react-i18next";
-import { useParams } from "react-router-dom";
 
-import { EditableValue } from "components";
-import { useAppDispatch } from "hooks";
 import type { IEnvProperty } from "models";
-import { updatePropertyThunk } from "store/thunks";
 
 import styles from "./styles.module.css";
 
@@ -36,30 +32,13 @@ interface IProps {
 }
 
 export const EnvironmentPropertyValue = ({ property }: IProps) => {
-    const { name, value, isPrimary } = property;
+    const { value, isPrimary } = property;
 
     const { t } = useTranslation();
-    const { instanceId } = useParams();
-    const dispatch = useAppDispatch();
-
-    const updatePropertyClickHandler = (newValue: string): void => {
-        dispatch(
-            updatePropertyThunk({
-                instanceId: instanceId!,
-                propertyName: name,
-                newValue: newValue,
-            }),
-        );
-    };
 
     return (
         <div className={styles.MainWrapper}>
-            <EditableValue
-                editClassName={styles.EditPropertyWrapper}
-                className={styles.PropertyValueWrapper}
-                initialValue={value}
-                onNewValue={(newValue) => updatePropertyClickHandler(newValue)}
-            />
+            {value}
             <Tooltip title={t("Environments.primaryProperty")}>
                 <CrownIcon className={`${styles.PrimaryIcon} ${!isPrimary ? styles.IconPlaceholder : ""}`} />
             </Tooltip>

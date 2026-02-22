@@ -42,7 +42,7 @@ public class DefaultEnhancedCache implements EnhancedCache {
 
     private final Cache delegate;
     private final AtomicBoolean enabled;
-    private final SlidingWindow<CacheLookup> cacheLookupHistory;
+    private final SlidingWindow<@NonNull CacheLookup> cacheLookupHistory;
 
     public DefaultEnhancedCache(@NonNull Cache delegate) {
         this.delegate = delegate;
