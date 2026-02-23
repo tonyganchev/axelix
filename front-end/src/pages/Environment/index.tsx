@@ -67,7 +67,7 @@ const Environment = () => {
 
     return (
         <>
-            <EnvironmentProfiles activeProfiles={activeProfiles} />
+            {activeProfiles ?? <EnvironmentProfiles activeProfiles={activeProfiles} />}
             <EnvironmentTables propertySources={propertySources} />
         </>
     );
