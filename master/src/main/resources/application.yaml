@@ -5,6 +5,13 @@ server:
 spring:
   application:
     name: axelix
+  ai:
+    mcp:
+      server:
+        protocol: streamable
+        name: "axelix-mcp-server"
+        streamable-http:
+          mcp-endpoint: "/api/mcp"
 
 management:
   endpoint:
@@ -39,3 +46,6 @@ axelix:
       cookie:
         name: auth_token
         secure: false
+    web:
+      static-resources:
+        location: file:/frontend/dist/
