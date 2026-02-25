@@ -57,35 +57,37 @@ export const LoggersList = ({ effectiveLoggers, levels, setUpdateLoggerLevel, ha
     });
 
     return (
-        <div ref={parentRef} className={styles.MainWrapper}>
-            <div
-                style={{
-                    height: `${rowVirtualizer.getTotalSize()}px`,
-                }}
-                className={styles.InnerWrapper}
-            >
-                {rowVirtualizer.getVirtualItems().map((virtualItem) => {
-                    const { key, size, index, start } = virtualItem;
-                    const logger = effectiveLoggers[index];
-                    return (
-                        <div
-                            className={styles.ItemWrapper}
-                            style={{
-                                height: `${size}px`,
-                                transform: `translateY(${start}px)`,
-                            }}
-                            key={key}
-                        >
-                            <Logger
-                                logger={logger}
-                                levels={levels}
-                                setUpdateLoggerLevel={setUpdateLoggerLevel}
-                                handleReset={handleReset}
-                            />
-                        </div>
-                    );
-                })}
+        <>
+            <div ref={parentRef} className={styles.MainWrapper}>
+                <div
+                    style={{
+                        height: `${rowVirtualizer.getTotalSize()}px`,
+                    }}
+                    className={styles.InnerWrapper}
+                >
+                    {rowVirtualizer.getVirtualItems().map((virtualItem) => {
+                        const { key, size, index, start } = virtualItem;
+                        const logger = effectiveLoggers[index];
+                        return (
+                            <div
+                                className={styles.ItemWrapper}
+                                style={{
+                                    height: `${size}px`,
+                                    transform: `translateY(${start}px)`,
+                                }}
+                                key={key}
+                            >
+                                <Logger
+                                    logger={logger}
+                                    levels={levels}
+                                    setUpdateLoggerLevel={setUpdateLoggerLevel}
+                                    handleReset={handleReset}
+                                />
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
-        </div>
+        </>
     );
 };
