@@ -19,6 +19,7 @@ package com.axelixlabs.axelix.sbs.spring.autoconfiguration;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -43,6 +44,7 @@ import com.axelixlabs.axelix.sbs.spring.core.config.AuthProperties;
  * @since 22.07.2025
  */
 @AutoConfiguration
+@ConditionalOnProperty(name = "axelix.sbs.auth.jwt")
 @EnableConfigurationProperties // required for JwtAuthAutoConfigurationTest to run
 public class JwtAuthAutoConfiguration {
 

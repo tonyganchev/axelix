@@ -47,7 +47,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 class JwtAuthAutoConfigurationTest {
 
     private final ApplicationContextRunner contextRunner = new ApplicationContextRunner()
-            .withPropertyValues("axelix.sbs.auth.jwt.algorithm=HMAC512", "axelix.sbs.auth.jwt.signing-key=secret")
+            .withPropertyValues(
+                    "axelix.sbs.auth.jwt",
+                    "axelix.sbs.auth.jwt.algorithm=HMAC512",
+                    "axelix.sbs.auth.jwt.signing-key=secret")
             .withConfiguration(AutoConfigurations.of(JwtAuthAutoConfiguration.class));
 
     @Test
@@ -66,7 +69,7 @@ class JwtAuthAutoConfigurationTest {
     void shouldFail_whenAlgorithmPropertyIsMissing() {
         new ApplicationContextRunner()
                 // "axelix.sbs.auth.jwt.algorithm" is missing
-                .withPropertyValues("axelix.sbs.auth.jwt.signing-key=secret")
+                .withPropertyValues("axelix.sbs.auth.jwt", "axelix.sbs.auth.jwt.signing-key=secret")
                 .withConfiguration(AutoConfigurations.of(JwtAuthAutoConfiguration.class))
                 .run(context -> {
                     assertThat(context).hasFailed();
@@ -78,7 +81,7 @@ class JwtAuthAutoConfigurationTest {
     void shouldFail_whenSigningKeyPropertyIsMissing() {
         new ApplicationContextRunner()
                 // "axelix.sbs.auth.jwt.signing-key" is missing
-                .withPropertyValues("axelix.sbs.auth.jwt.algorithm=HMAC512")
+                .withPropertyValues("axelix.sbs.auth.jwt", "axelix.sbs.auth.jwt.algorithm=HMAC512")
                 .withConfiguration(AutoConfigurations.of(JwtAuthAutoConfiguration.class))
                 .run(context -> {
                     assertThat(context).hasFailed();
