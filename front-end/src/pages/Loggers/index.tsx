@@ -16,7 +16,7 @@
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 import { App, Tabs, type TabsProps } from "antd";
-import { useEffect, useState, type MouseEvent } from "react";
+import { type MouseEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
@@ -80,10 +80,7 @@ const Loggers = () => {
     const loggerGroupsAddonAffter = `${effectiveLoggerGroups.length} / ${loggerGroups.length}`;
     const addonAfter = isLoggersTab ? loggersAddonAfter : loggerGroupsAddonAffter;
 
-    const handleLoggerReset = (e: MouseEvent, loggerName: string): void => {
-        e.stopPropagation();
-        e.preventDefault();
-
+    const handleLoggerReset = (_: MouseEvent, loggerName: string): void => {
         resetLogger({
             instanceId: instanceId!,
             loggerName: loggerName,

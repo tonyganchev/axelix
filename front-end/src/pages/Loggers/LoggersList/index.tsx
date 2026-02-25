@@ -44,7 +44,7 @@ interface IProps {
     /**
      * The function to handle the reset of this given logger
      */
-    handleReset: (e: MouseEvent, loggerName: string) => void
+    handleReset: (_: MouseEvent, loggerName: string) => void;
 }
 
 export const LoggersList = ({ effectiveLoggers, levels, setUpdateLoggerLevel, handleReset }: IProps) => {
@@ -76,7 +76,12 @@ export const LoggersList = ({ effectiveLoggers, levels, setUpdateLoggerLevel, ha
                             }}
                             key={key}
                         >
-                            <Logger logger={logger} levels={levels} setUpdateLoggerLevel={setUpdateLoggerLevel} handleReset={handleReset} />
+                            <Logger
+                                logger={logger}
+                                levels={levels}
+                                setUpdateLoggerLevel={setUpdateLoggerLevel}
+                                handleReset={handleReset}
+                            />
                         </div>
                     );
                 })}
