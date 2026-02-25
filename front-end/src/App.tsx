@@ -35,22 +35,24 @@ export const App = () => {
     };
 
     return (
-        <ConfigProvider
-            theme={theme}
-            tooltip={{
-                styles: {
-                    root: {
-                        maxWidth: "600px",
-                        whiteSpace: "normal",
+        <>
+            <ConfigProvider
+                theme={theme}
+                tooltip={{
+                    styles: {
+                        root: {
+                            maxWidth: "600px",
+                            whiteSpace: "normal",
+                        },
                     },
-                },
-            }}
-        >
-            <AntdApp>
-                <Provider store={store}>
-                    <AppRoutes />
-                </Provider>
-            </AntdApp>
-        </ConfigProvider>
+                }}
+            >
+                <AntdApp>
+                    <Provider store={store}>
+                        <AppRoutes />
+                    </Provider>
+                </AntdApp>
+            </ConfigProvider>
+        </>
     );
 };

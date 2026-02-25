@@ -35,10 +35,12 @@ interface IProps {
      * All possible logging levels that are supported by the logging system inside the instance
      */
     levels: string[];
+
     /**
      * Single logger
      */
     logger: ILogger;
+
     /**
      * setState to update the logger level
      */
@@ -74,18 +76,20 @@ export const Logger = ({ levels, logger, setUpdateLoggerLevel, handleReset }: IP
     };
 
     return (
-        <div className={styles.MainWrapper}>
-            <TooltipWithCopy text={logger.name} />
+        <>
+            <div className={styles.MainWrapper}>
+                <TooltipWithCopy text={logger.name} />
 
-            <div className={styles.LevelsWrapper}>
-                <Levels
-                    checkedLevel={effectiveLevel}
-                    configuredLevel={configuredLevel}
-                    levels={levels}
-                    handleChange={handleChange}
-                />
-                <Reset className={styles.Reset} onClick={(e) => handleReset(e, logger.name)} color="#FF000AFF" />
+                <div className={styles.LevelsWrapper}>
+                    <Levels
+                        checkedLevel={effectiveLevel}
+                        configuredLevel={configuredLevel}
+                        levels={levels}
+                        handleChange={handleChange}
+                    />
+                    <Reset className={styles.Reset} onClick={(e) => handleReset(e, logger.name)} color="#FF000AFF" />
+                </div>
             </div>
-        </div>
+        </>
     );
 };
