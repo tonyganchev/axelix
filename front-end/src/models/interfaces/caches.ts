@@ -107,9 +107,9 @@ export interface IGetSingleCacheData {
     cacheManagerName: string;
 }
 
-interface ITimestamp {
+interface ICacheLookup {
     /**
-     * Timestamp entry.
+     * Timestamp of the given cache lookup.
      */
     timestamp: number;
 }
@@ -131,14 +131,14 @@ export interface IGetSingleCacheResponseBody {
     cacheManager: string;
 
     /**
-     * List of hit timestamps.
+     * Recorded history of hits.
      */
-    hits: ITimestamp[];
+    hits: ICacheLookup[];
 
     /**
-     * List of miss timestamps.
+     * Recorded history of misses.
      */
-    misses: ITimestamp[];
+    misses: ICacheLookup[];
 
     /**
      * Estimated amount of entries inside the cache. May be absent.

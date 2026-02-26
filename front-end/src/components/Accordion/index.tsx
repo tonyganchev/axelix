@@ -55,7 +55,7 @@ interface IProps {
      */
     onClose?: () => void;
 
-    contentWrapperStyles?: string; 
+    contentWrapperStyles?: string;
 }
 
 export const Accordion = ({

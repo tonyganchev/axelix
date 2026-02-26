@@ -22,7 +22,7 @@ import {
     cacheHitsMissesChartToFormattedTime,
     createHitsAndMissesGroup,
     getChartData,
-    getOptimalTimelineInterval,
+    getTimelineInterval,
 } from "helpers";
 import type { IGetSingleCacheResponseBody } from "models";
 
@@ -37,7 +37,7 @@ interface IProps {
 
 export const CacheChart = ({ singleCacheData }: IProps) => {
     const { t } = useTranslation();
-    const interval = getOptimalTimelineInterval(singleCacheData);
+    const interval = getTimelineInterval(singleCacheData);
     const hitsAndMissesGroup = createHitsAndMissesGroup(singleCacheData);
     const data = getChartData(hitsAndMissesGroup, interval);
 
@@ -79,7 +79,7 @@ export const CacheChart = ({ singleCacheData }: IProps) => {
 
                     <Legend verticalAlign="top" align="right" />
                 </LineChart>
-            </ResponsiveContainer >
+            </ResponsiveContainer>
             <CacheChartStats singleCacheData={singleCacheData} />
         </>
     );

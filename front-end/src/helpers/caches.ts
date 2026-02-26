@@ -41,7 +41,7 @@ export const filterCacheManagers = (cacheManager: ICachesManager[], search: stri
     });
 };
 
-export const getOptimalTimelineInterval = (data: IGetSingleCacheResponseBody): number => {
+export const getTimelineInterval = (data: IGetSingleCacheResponseBody): number => {
     const allTimestamps = [
         ...data.hits.map(({ timestamp }) => timestamp),
         ...data.misses.map(({ timestamp }) => timestamp),
@@ -51,6 +51,8 @@ export const getOptimalTimelineInterval = (data: IGetSingleCacheResponseBody): n
         return SINGLE_CACHE_CHART_TIMELINE_STEP_S;
     }
 
+    // TODO: This can be optimized since the hits and misses are guaranteed to be sorted in
+    // response from the backend
     const range = Math.max(...allTimestamps) - Math.min(...allTimestamps);
 
     if (range <= SINGLE_CACHE_CHART_TIMELINE_STEP_M) {
