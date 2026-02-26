@@ -23,7 +23,6 @@ import { Trans, useTranslation } from "react-i18next";
 import { extractErrorCode } from "helpers";
 import { EIgnoredErrors, type IErrorResponse, type ILoginSubmitRequestData, StatelessRequest } from "models";
 import { login } from "services";
-import { IS_AUTH } from "utils";
 
 import styles from "./styles.module.css";
 
