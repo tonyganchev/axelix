@@ -1,0 +1,67 @@
+name: Deploy Website
+
+on:
+  push:
+    branches: [feature/GH-778]
+    paths:
+      - 'website/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: website
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run:  npm run build
+
+      - name: Copy build to VM via SCP
+        uses: appleboy/scp-action@v1.0.0
+        with:
+          host: ${{ secrets.WEBSITE_PRODUCTION_VM_HOST }}
+          username: ${{ secrets.PRODUCTION_VM_USER }}
+          key: ${{ secrets.PRODUCTION_VM_PRIVATE_KEY }}
+          source: "build/,public/,Dockerfile"
+          target: "/home/${{ secrets.PRODUCTION_VM_USER }}/axelix-website"
+          strip_components: 1
+    
+      - name: Build Docker image on server
+        uses: appleboy/ssh-action@v1.2.5
+        with:
+          host: ${{ secrets.WEBSITE_PRODUCTION_VM_HOST }}
+          username: ${{ secrets.PRODUCTION_VM_USER }}
+          key: ${{ secrets.PRODUCTION_VM_PRIVATE_KEY }}
+          script: |
+            cd /home/${{ secrets.PRODUCTION_VM_USER }}/axelix-website
+            echo "Test"
+
+
+
+
+
+
+
+
+
+
+# sudo docker build -t axelix-website:latest .
+# sudo docker stop axelix-website || true
+# sudo docker rm axelix-website || true
+# sudo docker run -d --name axelix-website -p 80:3000 axelix-website:latest
+
+
+
+# on:
+#   pull_request:
+#     paths:
+#       - 'website/**'
+#     branches: [ master ]
