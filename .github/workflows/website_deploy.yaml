@@ -3,8 +3,8 @@ name: Deploy Website
 on:
   push:
     branches: [feature/GH-778]
-    paths:
-      - 'website/**'
+    # paths:
+    #   - 'website/**'
 
 jobs:
   deploy:
