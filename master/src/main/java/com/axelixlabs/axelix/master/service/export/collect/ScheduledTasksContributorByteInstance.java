@@ -19,34 +19,35 @@ package com.axelixlabs.axelix.master.service.export.collect;
 
 import org.springframework.stereotype.Component;
 
-import com.axelixlabs.axelix.master.api.external.endpoint.ConfigPropsApi;
+import com.axelixlabs.axelix.master.api.external.endpoint.ScheduledTasksApi;
 import com.axelixlabs.axelix.master.service.export.StateComponent;
-import com.axelixlabs.axelix.master.service.export.settings.ConfigPropsStateComponentSettings;
+import com.axelixlabs.axelix.master.service.export.settings.ScheduledTasksStateComponentSettings;
 
 /**
- * Collects Spring Configuration Properties information for application state export.
+ * Collects Scheduled Tasks information for application state export.
  *
- * @see ConfigPropsApi
+ * @see ScheduledTasksApi
  * @since 27.10.2025
  * @author Nikita Kirillov
+ * @author Sergey Cherkasov
  */
 @Component
-public class ConfigpropsContributorJsonInstance
-        extends AbstractJsonInstanceStateCollector<ConfigPropsStateComponentSettings> {
+public class ScheduledTasksContributorByteInstance
+        extends AbstractByteInstanceStateCollector<ScheduledTasksStateComponentSettings> {
 
-    private final ConfigPropsApi configpropsApi;
+    private final ScheduledTasksApi scheduledTasksApi;
 
-    public ConfigpropsContributorJsonInstance(ConfigPropsApi configpropsApi) {
-        this.configpropsApi = configpropsApi;
+    public ScheduledTasksContributorByteInstance(ScheduledTasksApi scheduledTasksApi) {
+        this.scheduledTasksApi = scheduledTasksApi;
     }
 
     @Override
     public StateComponent responsibleFor() {
-        return StateComponent.CONFIG_PROPS;
+        return StateComponent.SCHEDULED_TASKS;
     }
 
     @Override
-    protected Object collectInternal(String instanceId, ConfigPropsStateComponentSettings settings) {
-        return configpropsApi.getConfigpropsFeed(instanceId);
+    protected byte[] collectByte(String instanceId, ScheduledTasksStateComponentSettings settings) {
+        return scheduledTasksApi.getAllScheduledTasks(instanceId);
     }
 }

@@ -92,7 +92,7 @@ public class McpServerTools {
     Use this when user asks about configuration, properties or environment of an instance.
     """)
     public String getInstanceEnvironment(@McpToolParam(description = "The instance ID") String instanceId) {
-        return String.valueOf(environmentApi.getAllEnvironmentProperties(instanceId));
+        return Arrays.toString(environmentApi.getAllEnvironmentProperties(instanceId));
     }
 
     @McpTool(
@@ -103,7 +103,7 @@ public class McpServerTools {
     Use this when user asks about configuration properties or settings of an instance.
     """)
     public String getInstanceConfigProps(@McpToolParam(description = "The instance ID") String instanceId) {
-        return String.valueOf(configPropsApi.getConfigpropsFeed(instanceId));
+        return Arrays.toString(configPropsApi.getConfigpropsFeed(instanceId));
     }
 
     @McpTool(
@@ -114,7 +114,7 @@ public class McpServerTools {
     Use this when user asks about auto-configuration, conditions or why a bean is missing.
     """)
     public String getInstanceConditions(@McpToolParam(description = "The instance ID") String instanceId) {
-        return String.valueOf(conditionsApi.getConditionsFeed(instanceId));
+        return Arrays.toString(conditionsApi.getConditionsFeed(instanceId));
     }
 
     @McpTool(
@@ -126,8 +126,7 @@ public class McpServerTools {
         """)
     public String getInstanceScheduledTasks(@McpToolParam(description = "The instance ID") String instanceId) {
 
-        return Arrays.toString(
-                scheduledTasksApi.getAllScheduledTasks(instanceId).getBody());
+        return Arrays.toString(scheduledTasksApi.getAllScheduledTasks(instanceId));
     }
 
     @McpTool(

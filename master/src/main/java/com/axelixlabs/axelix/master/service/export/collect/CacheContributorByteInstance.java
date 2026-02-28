@@ -19,34 +19,34 @@ package com.axelixlabs.axelix.master.service.export.collect;
 
 import org.springframework.stereotype.Component;
 
-import com.axelixlabs.axelix.master.api.external.endpoint.ConditionsApi;
+import com.axelixlabs.axelix.master.api.external.endpoint.caches.CachesReadApi;
 import com.axelixlabs.axelix.master.service.export.StateComponent;
-import com.axelixlabs.axelix.master.service.export.settings.ConditionsStateComponentSettings;
+import com.axelixlabs.axelix.master.service.export.settings.CachesStateComponentSettings;
 
 /**
- * Collects Spring Conditions information for application state export.
+ * Collects Spring Caches information for application state export.
  *
- * @see ConditionsApi
+ * @see CachesReadApi
  * @since 27.10.2025
  * @author Nikita Kirillov
+ * @author Sergey Cherkasov
  */
 @Component
-public class ConditionsContributorJsonInstance
-        extends AbstractJsonInstanceStateCollector<ConditionsStateComponentSettings> {
+public class CacheContributorByteInstance extends AbstractByteInstanceStateCollector<CachesStateComponentSettings> {
 
-    private final ConditionsApi conditionsApi;
+    private final CachesReadApi cachesReadApi;
 
-    public ConditionsContributorJsonInstance(final ConditionsApi conditionsApi) {
-        this.conditionsApi = conditionsApi;
+    public CacheContributorByteInstance(final CachesReadApi cachesReadApi) {
+        this.cachesReadApi = cachesReadApi;
     }
 
     @Override
     public StateComponent responsibleFor() {
-        return StateComponent.CONDITIONS;
+        return StateComponent.CACHES;
     }
 
     @Override
-    protected Object collectInternal(String instanceId, ConditionsStateComponentSettings settings) {
-        return conditionsApi.getConditionsFeed(instanceId);
+    protected byte[] collectByte(String instanceId, CachesStateComponentSettings settings) {
+        return cachesReadApi.getAllCaches(instanceId);
     }
 }
