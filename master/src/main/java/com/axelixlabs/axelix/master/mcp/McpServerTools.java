@@ -17,7 +17,9 @@
  */
 package com.axelixlabs.axelix.master.mcp;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Objects;
 
 import org.springaicommunity.mcp.annotation.McpTool;
 import org.springaicommunity.mcp.annotation.McpToolParam;
@@ -78,7 +80,8 @@ public class McpServerTools {
             dependencies, or services of an instance.
             """)
     public String getInstanceBeans(@McpToolParam(description = "The instance ID") String instanceId) {
-        return String.valueOf(beansApi.getBeansFeed(instanceId));
+        return new String(
+                Objects.requireNonNull(beansApi.getBeansFeed(instanceId).getBody()), StandardCharsets.UTF_8);
     }
 
     @McpTool(
