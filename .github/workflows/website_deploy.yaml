@@ -48,5 +48,5 @@ jobs:
           script: |
             set -eux
             cd /home/${{ secrets.WEBSITE_PRODUCTION_VM_USER }}/axelix-website
-            sudo docker compose down
-            sudo docker compose up --build -d
+            sudo docker compose -p axelix-website down || true
+            sudo docker compose -p axelix-website up --build -d
