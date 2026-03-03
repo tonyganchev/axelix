@@ -11,7 +11,7 @@ COPY .next/standalone ./
 # COPY .next/standalone/public ./public
 COPY .next/static ./.next/static
 
-RUN adduser --system --uid 1000 nextjs
+RUN adduser --system --uid 1001 nextjs
 USER nextjs
 
 EXPOSE 3000
