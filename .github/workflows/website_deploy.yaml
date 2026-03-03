@@ -48,7 +48,5 @@ jobs:
           script: |
             set -eux
             cd /home/${{ secrets.WEBSITE_PRODUCTION_VM_USER }}/axelix-website
-            sudo docker build -t axelix-website:latest .
-            sudo docker stop axelix-website || true
-            sudo docker rm axelix-website || true
-            sudo docker run -d --name axelix-website --restart unless-stopped axelix-website:latest
+            sudo docker compose down
+            sudo docker compose up --build -d
