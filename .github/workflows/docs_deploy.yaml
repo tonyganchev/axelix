@@ -57,4 +57,4 @@ jobs:
             set -eux
             cd /home/${{ secrets.WEBSITE_PRODUCTION_VM_USER }}
             sudo docker compose down || true
-            sudo docker compose up --build -d docs
+            sudo docker compose up --build -d docs nginx
