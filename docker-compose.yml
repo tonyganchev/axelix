@@ -1,7 +1,7 @@
 services:
 
   website:
-    build: website
+    build: axelix-website
     container_name: axelix-website
     restart: unless-stopped
     expose:
