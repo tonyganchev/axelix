@@ -35,7 +35,7 @@ jobs:
 
       - name: Prepare Standalone Folder
         run: |
-          cd website
+          cd website 
           cp -r public .next/standalone/
           cp -r .next/static .next/standalone/.next/
 
