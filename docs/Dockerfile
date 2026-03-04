@@ -3,14 +3,12 @@ FROM node:22-alpine
 WORKDIR /app
 
 ENV NODE_ENV=production
+ENV PORT=3000
 
-COPY package.json package-lock.json ./
-RUN npm install --omit=dev
+COPY build ./build
 
-COPY . .
-
-RUN npm run build
+RUN npm install serve -g
 
 EXPOSE 3000
 
-CMD ["npm", "run", "serve"]
+CMD ["serve", "-s", "build", "-l", "3000"]
