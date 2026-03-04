@@ -2,13 +2,13 @@ name: Deploy Website
 
 on:
   push:
-    branches: [feature/GH-778]
-    # paths:
-    #   - 'website/**'
+    branches: [master]
+    paths:
+      - 'website/**'
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest 
+    runs-on: ubuntu-latest
 
     defaults:
       run:
