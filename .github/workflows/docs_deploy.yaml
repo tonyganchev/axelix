@@ -8,7 +8,7 @@ name: Deploy Docs and Blog
 
 on:
   push:
-    branches: [feature/GH-794]
+    branches: [master]
 
 jobs:
   deploy:
