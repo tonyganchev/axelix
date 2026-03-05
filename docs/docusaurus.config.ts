@@ -74,7 +74,7 @@ const config: Config = {
         alt: 'Axelix logo',
         src: 'img/logo.svg',
         srcDark: 'img/logo-dark.svg',
-        href: "/docs/introduction"
+        href: "/docs/"
       },
       items: [
         {
