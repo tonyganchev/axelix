@@ -21,7 +21,7 @@ const config: Config = {
   url: 'https://axelix.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/docs/',
+  baseUrl: '/',
 
   onBrokenLinks: 'throw',
 
@@ -38,11 +38,13 @@ const config: Config = {
       'classic',
       {
         docs: {
+          routeBasePath: 'docs',
           sidebarPath: './sidebars.ts',
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
         },
         blog: {
+          routeBasePath: 'blog',
           showReadingTime: true,
 
           // TODO: Determine whether we need this.
@@ -74,7 +76,7 @@ const config: Config = {
         alt: 'Axelix logo',
         src: 'img/logo.svg',
         srcDark: 'img/logo-dark.svg',
-        href: "/docs/"
+        href: "/docs/introduction"
       },
       items: [
         {
