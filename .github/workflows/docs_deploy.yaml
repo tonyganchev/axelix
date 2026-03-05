@@ -57,4 +57,4 @@ jobs:
             set -eux
             cd /home/${{ secrets.WEBSITE_PRODUCTION_VM_USER }}
             sudo docker compose down -v
-            sudo docker compose up --build -d --force-recreate
+            sudo docker compose up --build -d
