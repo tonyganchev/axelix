@@ -1,6 +1,7 @@
 name: Deploy Docs and Blog
 
 on:
+  workflow_dispatch:
   push:
     branches: [master]
     paths:
@@ -10,18 +11,16 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: docs
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v6
 
       - name: Install dependencies
+        working-directory: docs
         run: npm ci
 
       - name: Build
+        working-directory: docs
         run: npm run build
 
       - name: Copy global resources to VM via SCP
