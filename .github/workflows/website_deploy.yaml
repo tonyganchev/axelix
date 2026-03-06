@@ -3,9 +3,9 @@ name: Deploy Website
 on:
   workflow_dispatch:
   push:
-    branches: [master]
-    paths:
-      - 'website/**'
+    branches: [feature/GH-799]
+#    paths:
+#      - 'website/**'
 
 jobs:
   deploy:
@@ -23,6 +23,15 @@ jobs:
         run: npm run build
         working-directory: website
 
+      - name: Copy global resources to VM via SCP
+        uses: appleboy/scp-action@v1.0.0
+        with:
+          host: ${{ secrets.WEBSITE_PRODUCTION_VM_HOST }}
+          username: ${{ secrets.WEBSITE_PRODUCTION_VM_USER }}
+          key: ${{ secrets.WEBSITE_PRODUCTION_VM_PRIVATE_KEY }}
+          source: "docker-compose.yml,infra/nginx"
+          target: "/home/${{ secrets.WEBSITE_PRODUCTION_VM_USER }}"
+
       - name: Prepare Standalone Folder
         working-directory: website
         run: |
@@ -35,7 +44,7 @@ jobs:
           host: ${{ secrets.WEBSITE_PRODUCTION_VM_HOST }}
           username: ${{ secrets.WEBSITE_PRODUCTION_VM_USER }}
           key: ${{ secrets.WEBSITE_PRODUCTION_VM_PRIVATE_KEY }}
-          source: "website/.next/static,website/.next/standalone,website/Dockerfile,docker-compose.yml,infra/nginx"
+          source: "website/.next/static,website/.next/standalone,website/Dockerfile"
           target: "/home/${{ secrets.WEBSITE_PRODUCTION_VM_USER }}/axelix-website"
           strip_components: 1
 
@@ -48,5 +57,5 @@ jobs:
           script: |
             set -eux
             cd /home/${{ secrets.WEBSITE_PRODUCTION_VM_USER }}
-            sudo docker compose down -v
-            sudo docker compose up --build -d
+            sudo docker compose rm -f -s website
+            sudo docker compose up --build -d website

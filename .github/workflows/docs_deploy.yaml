@@ -3,9 +3,9 @@ name: Deploy Docs and Blog
 on:
   workflow_dispatch:
   push:
-    branches: [master]
-    paths:
-      - 'docs/**'
+    branches: [feature/GH-799]
+#    paths:
+#      - 'docs/**'
 
 jobs:
   deploy:
@@ -51,5 +51,5 @@ jobs:
           script: |
             set -eux
             cd /home/${{ secrets.WEBSITE_PRODUCTION_VM_USER }}
-            sudo docker compose down -v
-            sudo docker compose up --build -d
+            sudo docker compose rm -f -s docs
+            sudo docker compose up --build -d docs
