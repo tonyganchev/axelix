@@ -3,7 +3,7 @@ name: Deploy Docs and Blog
 on:
   workflow_dispatch:
   push:
-    branches: [feature/GH-799]
+    branches: [master]
 #    paths:
 #      - 'docs/**'
 
