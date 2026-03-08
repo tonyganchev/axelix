@@ -88,7 +88,7 @@ In a very rare occasions the principles above MAY be violated, but you should al
 
 ### Code Style:
 
-You generally should not use `var`, unless when the type of the reference is clear just by looking on the right side of the statement (part after assignment operator)
+You generally should NOT use `var`, unless when the type of the reference is clear just by looking on the right side of the statement (part after assignment operator)
 
 For example, here:
 
@@ -100,9 +100,10 @@ Usage of `var` is appropriate, and you should use `var`. Reason is simple - the 
 
 ```(java)
 var subject = Stream.of(1,2,3,4).map(ImmutableValue::of).collect(Collectors.toMap(i -> i % 2, it -> it));
+var features = discoverer.discover();
 ```
 
-Usage of `var` is ILLEGAL, so you MUST specify the explicit type of the `subject` variable in this case.
+Usage of `var` is ILLEGAL, so you MUST specify the explicit type of the `subject` and `features` variables in this case.
 
 ### Overall Behavioral Guidelines
 

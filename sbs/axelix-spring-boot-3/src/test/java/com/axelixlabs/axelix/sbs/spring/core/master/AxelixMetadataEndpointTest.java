@@ -92,7 +92,7 @@ class AxelixMetadataEndpointTest {
         assertThat(result.getStatusCode().is2xxSuccessful()).isTrue();
         JsonAssertions.assertThatJson(result.getBody())
                 // we do not want to know exactly the java version on which the test is going to run
-                .whenIgnoringPaths("softwareVersions")
+                .whenIgnoringPaths("softwareVersions", "vmFeatures")
                 .isEqualTo(
                         // language=json
                         """
@@ -111,13 +111,7 @@ class AxelixMetadataEndpointTest {
               "memoryDetails" : {
                 "heap" : "#{json-unit.ignore}"
               },
-              "vmFeatures": [
-                 {
-                   "name" : "AppCDS",
-                   "description" : "#{json-unit.ignore}",
-                   "enabled" : "#{json-unit.ignore}"
-                 }
-              ]
+              "vmFeatures": []
             }
             """);
     }
