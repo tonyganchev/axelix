@@ -17,6 +17,8 @@
  */
 package com.axelixlabs.axelix.sbs.spring.core.master;
 
+import java.lang.management.ManagementFactory;
+
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -65,7 +67,8 @@ class DefaultBasicDiscoveryMetadataAssemblerTest {
 
         @Bean
         VMFeaturesProvider vmFeaturesProvider() {
-            return new OptionsParsingVMFeaturesProvider();
+            return new OptionsParsingVMFeaturesProvider(
+                    ManagementFactory.getRuntimeMXBean().getInputArguments());
         }
 
         @Bean

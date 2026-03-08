@@ -17,6 +17,7 @@
  */
 package com.axelixlabs.axelix.sbs.spring.autoconfiguration;
 
+import java.lang.management.ManagementFactory;
 import java.util.List;
 
 import org.springframework.boot.actuate.autoconfigure.health.HealthEndpointAutoConfiguration;
@@ -63,7 +64,8 @@ public class AxelixMetadataEndpointConfiguration {
     @Bean
     @ConditionalOnMissingBean
     public VMFeaturesProvider vmFeaturesProvider() {
-        return new OptionsParsingVMFeaturesProvider();
+        return new OptionsParsingVMFeaturesProvider(
+                ManagementFactory.getRuntimeMXBean().getInputArguments());
     }
 
     @Bean

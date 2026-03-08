@@ -18,6 +18,7 @@
 package com.axelixlabs.axelix.sbs.spring.core.master;
 
 import java.io.IOException;
+import java.lang.management.ManagementFactory;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.mockwebserver.MockResponse;
@@ -100,7 +101,8 @@ class SelfRegistrationServiceTest {
 
         @Bean
         public VMFeaturesProvider vmFeaturesProvider() {
-            return new OptionsParsingVMFeaturesProvider();
+            return new OptionsParsingVMFeaturesProvider(
+                    ManagementFactory.getRuntimeMXBean().getInputArguments());
         }
 
         @Bean

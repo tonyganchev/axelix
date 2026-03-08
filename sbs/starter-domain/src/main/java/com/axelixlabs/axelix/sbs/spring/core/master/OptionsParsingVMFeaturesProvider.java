@@ -17,8 +17,6 @@
  */
 package com.axelixlabs.axelix.sbs.spring.core.master;
 
-import java.lang.management.ManagementFactory;
-import java.lang.management.RuntimeMXBean;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,25 +29,30 @@ import com.axelixlabs.axelix.common.api.registration.BasicDiscoveryMetadata.VMFe
  */
 public class OptionsParsingVMFeaturesProvider implements VMFeaturesProvider {
 
-    private static final RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
+    private final List<String> vmOptions;
+
+    /**
+     * @param vmOptions list of non-standard (i.e. -X or -XX) VM options
+     */
+    public OptionsParsingVMFeaturesProvider(List<String> vmOptions) {
+        this.vmOptions = vmOptions;
+    }
 
     @Override
     public List<VMFeature> discover() {
-        List<String> inputArguments = runtimeMXBean.getInputArguments();
-
         List<VMFeature> features = new ArrayList<>();
 
         // Check for AppCDS (Application Class Data Sharing)
-        features.add(getAppCdsFeature(inputArguments));
+        features.add(getAppCdsFeature(vmOptions));
 
         int javaVersion = Runtime.version().feature();
 
         if (javaVersion >= 24) {
             // Check for AotCache (Ahead-of-Time Cache)
-            features.add(getAotCacheEnabled(inputArguments));
+            features.add(getAotCacheEnabled(vmOptions));
 
             // Check for Compressed Object Headers (Project Lilliput)
-            features.add(getCompressedObjectHeadersEnabled(inputArguments));
+            features.add(getCompressedObjectHeadersEnabled(vmOptions));
         }
 
         return features;
@@ -74,7 +77,7 @@ public class OptionsParsingVMFeaturesProvider implements VMFeaturesProvider {
         return new VMFeature(
                 "AppCDS",
                 "Application Class Data Sharing - allows for loading pre-processed class"
-                        + " structures from shared archive to reduce memory footprint adn startup time",
+                        + " structures from shared archive to reduce memory footprint and startup time",
                 enabled);
     }
 

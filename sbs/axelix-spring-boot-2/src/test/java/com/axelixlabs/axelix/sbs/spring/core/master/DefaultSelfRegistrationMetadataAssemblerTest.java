@@ -17,6 +17,7 @@
  */
 package com.axelixlabs.axelix.sbs.spring.core.master;
 
+import java.lang.management.ManagementFactory;
 import java.time.Instant;
 
 import org.junit.jupiter.api.Test;
@@ -92,7 +93,8 @@ class DefaultSelfRegistrationMetadataAssemblerTest {
 
         @Bean
         VMFeaturesProvider vmFeaturesProvider() {
-            return new OptionsParsingVMFeaturesProvider();
+            return new OptionsParsingVMFeaturesProvider(
+                    ManagementFactory.getRuntimeMXBean().getInputArguments());
         }
 
         @Bean
