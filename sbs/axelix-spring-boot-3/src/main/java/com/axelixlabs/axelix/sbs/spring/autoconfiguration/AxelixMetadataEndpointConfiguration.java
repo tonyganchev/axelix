@@ -22,10 +22,12 @@ import java.util.List;
 
 import org.springframework.boot.actuate.autoconfigure.health.HealthEndpointAutoConfiguration;
 import org.springframework.boot.actuate.health.HealthEndpoint;
+import org.springframework.boot.actuate.health.Status;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 
+import com.axelixlabs.axelix.common.api.registration.BasicDiscoveryMetadata;
 import com.axelixlabs.axelix.common.domain.AxelixVersionDiscoverer;
 import com.axelixlabs.axelix.common.domain.PropertiesAxelixVersionDiscoverer;
 import com.axelixlabs.axelix.sbs.spring.core.master.AxelixMetadataEndpoint;
@@ -78,7 +80,7 @@ public class AxelixMetadataEndpointConfiguration {
             List<ShortBuildInfoProvider> shortBuildInfoProviders,
             VMFeaturesProvider vmFeaturesProvider) {
         return new DefaultServiceMetadataAssembler(
-                healthEndpoint,
+                () -> getCurrentHealth(healthEndpoint),
                 libraryDiscoverer,
                 axelixVersionDiscoverer,
                 gitInformationProviders,
@@ -90,5 +92,20 @@ public class AxelixMetadataEndpointConfiguration {
     @ConditionalOnMissingBean
     public AxelixMetadataEndpoint axelixMetadataEndpoint(ServiceMetadataAssembler serviceMetadataAssembler) {
         return new AxelixMetadataEndpoint(serviceMetadataAssembler);
+    }
+
+    private BasicDiscoveryMetadata.HealthStatus getCurrentHealth(HealthEndpoint healthEndpoint) {
+        Status status = healthEndpoint.health().getStatus();
+
+        if (status == Status.UP) {
+            return BasicDiscoveryMetadata.HealthStatus.UP;
+        }
+
+        if (status == Status.DOWN) {
+            return BasicDiscoveryMetadata.HealthStatus.DOWN;
+        }
+
+        // defaulting to unknown in case of UNKNOWN, OUT_OF_SERVICE and custom statuses
+        return BasicDiscoveryMetadata.HealthStatus.UNKNOWN;
     }
 }

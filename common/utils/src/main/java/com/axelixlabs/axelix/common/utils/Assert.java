@@ -17,32 +17,22 @@
  */
 package com.axelixlabs.axelix.common.utils;
 
-import java.util.Collection;
-import java.util.Set;
-
-import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 /**
- * Utils for working with Java Collection Framework.
+ * Assertions
  *
  * @author Mikhail Polivakha
  */
-public class CollectionUtils {
+public class Assert {
 
-    public static <T> Set<T> defaultIfEmpty(Set<T> source, @NonNull T defaultValue) {
-        if (source == null || source.isEmpty()) {
-            return Set.of(defaultValue);
-        } else {
-            return source;
+    public static void notNull(@Nullable Object object, String message) {
+        if (object == null) {
+            throw new IllegalArgumentException(message);
         }
     }
 
-    public static <T> @Nullable T firstElement(Collection<T> source) {
-        if (source == null || source.isEmpty()) {
-            return null;
-        } else {
-            return source.stream().findFirst().orElse(null);
-        }
+    public static void notNull(@Nullable Object object) {
+        notNull(object, "The argument is supposed to be not null");
     }
 }

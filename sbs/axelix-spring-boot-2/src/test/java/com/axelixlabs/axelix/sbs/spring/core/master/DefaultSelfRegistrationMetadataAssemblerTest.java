@@ -21,22 +21,19 @@ import java.lang.management.ManagementFactory;
 import java.time.Instant;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointAutoConfiguration;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties;
-import org.springframework.boot.actuate.health.Health;
-import org.springframework.boot.actuate.health.HealthEndpoint;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.TestPropertySource;
 
+import com.axelixlabs.axelix.common.api.registration.BasicDiscoveryMetadata;
 import com.axelixlabs.axelix.common.api.registration.SelfRegistrationMetadata;
 import com.axelixlabs.axelix.common.domain.AxelixVersionDiscoverer;
 import com.axelixlabs.axelix.sbs.spring.core.config.SelfRegistrationConfigurationProperties;
@@ -48,6 +45,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  *
  * @since 06.02.2026
  * @author Nikita Kirillov
+ * @author Mikhail Polivakha
  */
 @SpringBootTest
 @Import({
@@ -67,9 +65,6 @@ class DefaultSelfRegistrationMetadataAssemblerTest {
 
     @Autowired
     private SelfRegistrationMetadataAssembler subject;
-
-    @MockBean
-    private HealthEndpoint healthEndpoint;
 
     @TestConfiguration
     @EnableConfigurationProperties({SelfRegistrationConfigurationProperties.class, WebEndpointProperties.class})
@@ -92,6 +87,11 @@ class DefaultSelfRegistrationMetadataAssemblerTest {
         }
 
         @Bean
+        HealthDetectionFunction healthDetectionFunction() {
+            return () -> BasicDiscoveryMetadata.HealthStatus.UP;
+        }
+
+        @Bean
         VMFeaturesProvider vmFeaturesProvider() {
             return new OptionsParsingVMFeaturesProvider(
                     ManagementFactory.getRuntimeMXBean().getInputArguments());
@@ -105,9 +105,6 @@ class DefaultSelfRegistrationMetadataAssemblerTest {
 
     @Test
     void shouldAssembleTheSelfRegistrationMetadataAboutGivenService() {
-        // then.
-        Mockito.when(healthEndpoint.health()).thenReturn(Health.up().build());
-
         // when.
         SelfRegistrationMetadata metadata = subject.assemble();
 

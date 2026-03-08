@@ -21,20 +21,17 @@ import java.lang.management.ManagementFactory;
 
 import net.javacrumbs.jsonunit.assertj.JsonAssertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.health.Health;
-import org.springframework.boot.actuate.health.HealthEndpoint;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.ResponseEntity;
 
+import com.axelixlabs.axelix.common.api.registration.BasicDiscoveryMetadata;
 import com.axelixlabs.axelix.common.domain.AxelixVersionDiscoverer;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -57,9 +54,6 @@ class AxelixMetadataEndpointTest {
     @Autowired
     private TestRestTemplate testRestTemplate;
 
-    @MockBean
-    private HealthEndpoint healthEndpoint;
-
     @TestConfiguration
     static class CurrentConfig {
 
@@ -75,6 +69,11 @@ class AxelixMetadataEndpointTest {
         }
 
         @Bean
+        HealthDetectionFunction healthDetectionFunction() {
+            return () -> BasicDiscoveryMetadata.HealthStatus.UP;
+        }
+
+        @Bean
         AxelixVersionDiscoverer axelixVersionDiscoverer() {
             return () -> "1.1.3";
         }
@@ -82,9 +81,6 @@ class AxelixMetadataEndpointTest {
 
     @Test
     void shouldReceiveServiceMetadata() {
-
-        Mockito.when(healthEndpoint.health()).thenReturn(Health.up().build());
-
         // when.
         ResponseEntity<String> result = testRestTemplate.getForEntity("/actuator/axelix-metadata", String.class);
 

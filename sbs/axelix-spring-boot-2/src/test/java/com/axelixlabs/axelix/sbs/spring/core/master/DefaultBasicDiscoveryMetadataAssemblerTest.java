@@ -20,14 +20,10 @@ package com.axelixlabs.axelix.sbs.spring.core.master;
 import java.lang.management.ManagementFactory;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.actuate.health.Health;
-import org.springframework.boot.actuate.health.HealthEndpoint;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.core.io.ClassPathResource;
@@ -54,9 +50,6 @@ class DefaultBasicDiscoveryMetadataAssemblerTest {
     @Autowired
     private DefaultServiceMetadataAssembler subject;
 
-    @MockBean
-    private HealthEndpoint healthEndpoint;
-
     @TestConfiguration
     static class CurrentConfig {
 
@@ -72,6 +65,11 @@ class DefaultBasicDiscoveryMetadataAssemblerTest {
         }
 
         @Bean
+        HealthDetectionFunction healthDetectionFunction() {
+            return () -> BasicDiscoveryMetadata.HealthStatus.UP;
+        }
+
+        @Bean
         AxelixVersionDiscoverer axelixVersionDiscoverer() {
             return () -> "1.1.3";
         }
@@ -79,9 +77,6 @@ class DefaultBasicDiscoveryMetadataAssemblerTest {
 
     @Test
     void shouldAssembleTheMetadataAboutGivenService() {
-        // then.
-        Mockito.when(healthEndpoint.health()).thenReturn(Health.up().build());
-
         // when.
         BasicDiscoveryMetadata serviceMetadata = subject.assemble();
 

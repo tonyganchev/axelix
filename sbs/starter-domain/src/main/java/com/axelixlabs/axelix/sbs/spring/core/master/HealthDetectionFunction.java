@@ -15,34 +15,17 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package com.axelixlabs.axelix.common.utils;
+package com.axelixlabs.axelix.sbs.spring.core.master;
 
-import java.util.Collection;
-import java.util.Set;
+import java.util.function.Supplier;
 
-import org.jspecify.annotations.NonNull;
-import org.jspecify.annotations.Nullable;
+import com.axelixlabs.axelix.common.api.registration.BasicDiscoveryMetadata.HealthStatus;
 
 /**
- * Utils for working with Java Collection Framework.
+ * Just a nominal type for the {@link Supplier} that provides the {@link HealthStatus}.
+ * Conceptually, this is an SPI interface supposed to be implemented by concrete starter versions
+ * to provide for the current health of the given spring boot app.
  *
  * @author Mikhail Polivakha
  */
-public class CollectionUtils {
-
-    public static <T> Set<T> defaultIfEmpty(Set<T> source, @NonNull T defaultValue) {
-        if (source == null || source.isEmpty()) {
-            return Set.of(defaultValue);
-        } else {
-            return source;
-        }
-    }
-
-    public static <T> @Nullable T firstElement(Collection<T> source) {
-        if (source == null || source.isEmpty()) {
-            return null;
-        } else {
-            return source.stream().findFirst().orElse(null);
-        }
-    }
-}
+public interface HealthDetectionFunction extends Supplier<HealthStatus> {}

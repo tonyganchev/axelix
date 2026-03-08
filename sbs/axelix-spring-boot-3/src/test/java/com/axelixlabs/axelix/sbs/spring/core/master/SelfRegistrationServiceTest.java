@@ -27,12 +27,9 @@ import okhttp3.mockwebserver.RecordedRequest;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties;
-import org.springframework.boot.actuate.health.Health;
-import org.springframework.boot.actuate.health.HealthEndpoint;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -41,6 +38,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.TestPropertySource;
 
+import com.axelixlabs.axelix.common.api.registration.BasicDiscoveryMetadata;
 import com.axelixlabs.axelix.common.domain.AxelixVersionDiscoverer;
 import com.axelixlabs.axelix.sbs.spring.core.config.SelfRegistrationConfigurationProperties;
 
@@ -106,10 +104,8 @@ class SelfRegistrationServiceTest {
         }
 
         @Bean
-        public HealthEndpoint healthEndpoint() {
-            HealthEndpoint mock = Mockito.mock(HealthEndpoint.class);
-            Mockito.when(mock.health()).thenReturn(Health.up().build());
-            return mock;
+        HealthDetectionFunction healthDetectionFunction() {
+            return () -> BasicDiscoveryMetadata.HealthStatus.UP;
         }
 
         @Bean
