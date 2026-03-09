@@ -36,7 +36,6 @@ import com.axelixlabs.axelix.sbs.spring.autoconfiguration.AxelixMetricsAutoConfi
 import com.axelixlabs.axelix.sbs.spring.autoconfiguration.ContextRestarterAutoConfiguration;
 import com.axelixlabs.axelix.sbs.spring.autoconfiguration.GitInformationProviderAutoConfiguration;
 import com.axelixlabs.axelix.sbs.spring.autoconfiguration.JwtAuthAutoConfiguration;
-import com.axelixlabs.axelix.sbs.spring.autoconfiguration.KafkaIntegrationAutoConfiguration;
 import com.axelixlabs.axelix.sbs.spring.autoconfiguration.LibraryDiscovererAutoConfiguration;
 import com.axelixlabs.axelix.sbs.spring.autoconfiguration.ProfileManagementAutoConfiguration;
 import com.axelixlabs.axelix.sbs.spring.autoconfiguration.PropertyManagementAutoConfiguration;
@@ -68,7 +67,6 @@ import com.axelixlabs.axelix.sbs.spring.autoconfiguration.TransactionMonitoringA
             AxelixFeignEndpointAutoConfiguration.class,
             GitInformationProviderAutoConfiguration.class,
             JwtAuthAutoConfiguration.class,
-            KafkaIntegrationAutoConfiguration.class,
             LibraryDiscovererAutoConfiguration.class,
             ProfileManagementAutoConfiguration.class,
             PropertyManagementAutoConfiguration.class,

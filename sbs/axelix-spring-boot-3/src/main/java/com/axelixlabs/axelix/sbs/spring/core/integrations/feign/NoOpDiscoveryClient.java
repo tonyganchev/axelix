@@ -29,6 +29,7 @@ import org.springframework.cloud.client.discovery.DiscoveryClient;
  * @author Sergey Cherkasov
  */
 public final class NoOpDiscoveryClient implements DiscoveryClient {
+
     @Override
     public String description() {
         return "No discovery client configured";

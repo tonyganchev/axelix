@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software Foundation,
  * Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package com.axelixlabs.axelix.common.api.integrations.feign;
+package com.axelixlabs.axelix.common.api.integration;
 
 import java.util.List;
 import java.util.Objects;
@@ -30,6 +30,7 @@ import org.jspecify.annotations.Nullable;
  * @author Sergey Cherkasov
  */
 public class FeignIntegration {
+
     private final String serviceName;
     private final List<String> networkAddresses;
     private final String protocol;

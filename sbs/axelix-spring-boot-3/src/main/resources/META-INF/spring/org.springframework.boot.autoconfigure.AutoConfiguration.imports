@@ -12,7 +12,6 @@ com.axelixlabs.axelix.sbs.spring.autoconfiguration.ContextRestarterAutoConfigura
 com.axelixlabs.axelix.sbs.spring.autoconfiguration.AxelixGcEndpointAutoConfiguration
 com.axelixlabs.axelix.sbs.spring.autoconfiguration.GitInformationProviderAutoConfiguration
 com.axelixlabs.axelix.sbs.spring.autoconfiguration.JwtAuthAutoConfiguration
-com.axelixlabs.axelix.sbs.spring.autoconfiguration.KafkaIntegrationAutoConfiguration
 com.axelixlabs.axelix.sbs.spring.autoconfiguration.LibraryDiscovererAutoConfiguration
 com.axelixlabs.axelix.sbs.spring.autoconfiguration.ProfileManagementAutoConfiguration
 com.axelixlabs.axelix.sbs.spring.autoconfiguration.PropertyManagementAutoConfiguration

@@ -43,7 +43,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.axelixlabs.axelix.common.api.integrations.feign.FeignIntegration;
+import com.axelixlabs.axelix.common.api.integration.FeignIntegration;
 import com.axelixlabs.axelix.common.domain.http.HttpVersion;
 
 import static org.assertj.core.api.Assertions.assertThat;

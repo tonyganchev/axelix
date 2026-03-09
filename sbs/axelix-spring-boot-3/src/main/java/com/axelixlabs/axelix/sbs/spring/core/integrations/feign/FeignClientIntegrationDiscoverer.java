@@ -34,9 +34,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.axelixlabs.axelix.common.api.integrations.feign.FeignIntegration;
+import com.axelixlabs.axelix.common.api.integration.FeignIntegration;
 import com.axelixlabs.axelix.common.domain.http.HttpVersion;
-import com.axelixlabs.axelix.sbs.spring.core.integrations.FeignPathHolder;
 import com.axelixlabs.axelix.sbs.spring.core.integrations.IntegrationComponentDiscoverer;
 
 /**
@@ -48,12 +47,14 @@ import com.axelixlabs.axelix.sbs.spring.core.integrations.IntegrationComponentDi
  * {@link FeignIntegration} objects.</p>
  *
  * @author Sergey Cherkasov
+ * @author Mikhail Polivakha
  */
 public class FeignClientIntegrationDiscoverer implements IntegrationComponentDiscoverer<FeignIntegration> {
 
     private static final String UNKNOWN = "UNKNOWN";
 
     private final ApplicationContext context;
+
     private final DiscoveryClient discoveryClient;
 
     public FeignClientIntegrationDiscoverer(ApplicationContext context, DiscoveryClient discoveryClient) {
@@ -80,16 +81,15 @@ public class FeignClientIntegrationDiscoverer implements IntegrationComponentDis
 
         String serviceName = extractServiceName(feignClient);
 
-        FeignPathHolder networkAddresses = extractNetworkAddresses(feignClient, serviceName);
+        List<String> networkAddresses = extractNetworkAddresses(feignClient, serviceName);
 
         List<FeignIntegration.FeignHttpMethod> httpMethods = Arrays.stream(feignType.getMethods())
                 .filter(m -> m.getDeclaringClass() != Object.class)
-                .map(method -> createHttpMethod(method, networkAddresses.getPath()))
+                .map(method -> createHttpMethod(method, feignClient.path()))
                 .filter(Objects::nonNull)
                 .toList();
 
-        return new FeignIntegration(
-                serviceName, networkAddresses.getNetworkAddresses(), HttpVersion.V1_1.getDisplay(), httpMethods);
+        return new FeignIntegration(serviceName, networkAddresses, HttpVersion.V1_1.getDisplay(), httpMethods);
     }
 
     private FeignIntegration.@Nullable FeignHttpMethod createHttpMethod(Method method, String feignPath) {
@@ -131,22 +131,19 @@ public class FeignClientIntegrationDiscoverer implements IntegrationComponentDis
         return feignClient.value();
     }
 
-    private FeignPathHolder extractNetworkAddresses(FeignClient feignClient, String serviceId) {
+    private List<String> extractNetworkAddresses(FeignClient feignClient, String serviceId) {
         if (!feignClient.url().isBlank()) {
-            return new FeignPathHolder(List.of(feignClient.url()), feignClient.path());
+            return List.of(feignClient.url());
         }
 
         // Retrieving the network address from the DiscoveryClient can be significantly delayed,
-        // as it depends on the service registration mechanism, which is outside of our control.
+        // as it depends on the service registration mechanism, which is outside our control.
         List<ServiceInstance> instances = discoveryClient.getInstances(serviceId);
 
-        List<String> discovered = instances.stream()
+        return instances.stream()
                 .map(instance -> instance.getUri().toString())
                 .filter(service -> !service.isBlank())
                 .toList();
-
-        // return discovered.isEmpty() ? List.of() : discovered;
-        return new FeignPathHolder(discovered, feignClient.path());
     }
 
     private @Nullable String pickPath(String[] path, String feignPath) {
